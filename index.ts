@@ -22,7 +22,7 @@ wss.on('connection', (ws) => {
     const [command, value, length] = data.toString().split(' ');
     const { x, y } = getMousePos();
 
-    dispatch(command, x, y, +value);
+    dispatch(command, x, y, +value, +length);
   });
 });
 
