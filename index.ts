@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import Jimp from 'jimp';
 import { httpServer } from './src/http_server/index';
 import robot, { getMousePos } from 'robotjs';
-import { WebSocketServer } from 'ws';
+import { createWebSocketStream, WebSocketServer } from 'ws';
 import { dispatch } from './src/utils/dispatch';
 
 dotenv.config();
@@ -21,8 +21,9 @@ wss.on('connection', (ws) => {
   ws.on('message', (data) => {
     const [command, value, length] = data.toString().split(' ');
     const { x, y } = getMousePos();
+    const duplex = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
 
-    dispatch(command, x, y, +value, +length, ws);
+    dispatch(command, x, y, +value, +length, duplex);
   });
 });
 

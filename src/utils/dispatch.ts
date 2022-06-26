@@ -1,4 +1,5 @@
 import { moveMouse } from 'robotjs';
+import internal from 'stream';
 import { WebSocket } from 'ws';
 import { drawCircle } from '../drawing/drawCircle';
 import { drawRectangle } from '../drawing/drawRectangle';
@@ -12,39 +13,39 @@ const dispatch = async (
   y: number,
   value: number,
   length: number,
-  ws: WebSocket
+  duplex: internal.Duplex
 ) => {
   switch (command) {
     case 'mouse_up':
       const yUp = y - value;
-      ws.send('mouse_up');
+      duplex.write('mouse_up');
       moveMouse(x, yUp);
       printMouseNav(command, yUp);
       break;
 
     case 'mouse_down':
       const yDown = y + value;
-      ws.send('mouse_down');
+      duplex.write('mouse_down');
       moveMouse(x, yDown);
       printMouseNav(command, yDown);
       break;
 
     case 'mouse_left':
       const xLeft = x - value;
-      ws.send('mouse_left');
+      duplex.write('mouse_left');
       moveMouse(xLeft, y);
       printMouseNav(command, xLeft);
       break;
 
     case 'mouse_right':
       const xRight = x + value;
-      ws.send('mouse_right');
+      duplex.write('mouse_right');
       moveMouse(xRight, y);
       printMouseNav(command, xRight);
       break;
 
     case 'mouse_position':
-      ws.send(`mouse_position ${x} ${y}`);
+      duplex.write(`mouse_position ${x} ${y}`);
       printMouseNav(command, x, y);
       break;
 
@@ -65,7 +66,7 @@ const dispatch = async (
 
     case 'prnt_scrn':
       const screenShot = await printScreen(x, y, 200);
-      ws.send(`prnt_scrn ${screenShot}`);
+      duplex.write(`prnt_scrn ${screenShot}`);
       printSuccess(command);
       break;
 
