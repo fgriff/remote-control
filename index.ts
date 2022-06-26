@@ -18,6 +18,8 @@ const wss = new WebSocketServer({ port: WS_PORT });
 wss.on('connection', (ws) => {
   console.log(`WebSocket is running on ${WS_PORT} port`);
 
+  ws.setMaxListeners(0);
+
   ws.on('message', (data) => {
     const [command, value, length] = data.toString().split(' ');
     const { x, y } = getMousePos();
