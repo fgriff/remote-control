@@ -1,6 +1,5 @@
 import { moveMouse } from 'robotjs';
 import internal from 'stream';
-import { WebSocket } from 'ws';
 import { drawCircle } from '../drawing/drawCircle';
 import { drawRectangle } from '../drawing/drawRectangle';
 import { drawSquare } from '../drawing/drawSquare';

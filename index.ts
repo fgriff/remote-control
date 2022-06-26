@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
-import Jimp from 'jimp';
 import { httpServer } from './src/http_server/index';
-import robot, { getMousePos } from 'robotjs';
+import { getMousePos } from 'robotjs';
 import { createWebSocketStream, WebSocketServer } from 'ws';
 import { dispatch } from './src/utils/dispatch';
 
