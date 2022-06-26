@@ -1,6 +1,6 @@
 import { dragMouse, mouseToggle } from 'robotjs';
 
-const drawSquare = (x: number, y: number, sideSize: number, speed: number) => {
+const drawSquare = (x: number, y: number, sideSize: number, speed: number): string => {
   mouseToggle('down');
 
   const startX = x;
@@ -25,6 +25,8 @@ const drawSquare = (x: number, y: number, sideSize: number, speed: number) => {
   }
 
   mouseToggle('up');
+
+  return `draw_square ${sideSize}\0`;
 };
 
 export { drawSquare };

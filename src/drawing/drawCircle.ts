@@ -1,6 +1,6 @@
 import { dragMouse, mouseToggle } from 'robotjs';
 
-const drawCircle = (x: number, y: number, radius: number, speed: number) => {
+const drawCircle = (x: number, y: number, radius: number, speed: number): string => {
   mouseToggle('down');
 
   for (let i = 0; i <= Math.PI * 2; i += speed) {
@@ -11,6 +11,8 @@ const drawCircle = (x: number, y: number, radius: number, speed: number) => {
   }
 
   mouseToggle('up');
+
+  return `draw_circle ${radius}\0`;
 };
 
 export { drawCircle };

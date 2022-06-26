@@ -5,7 +5,7 @@ import { drawCircle } from '../drawing/drawCircle';
 import { drawRectangle } from '../drawing/drawRectangle';
 import { drawSquare } from '../drawing/drawSquare';
 import { printScreen } from '../printScreen/printScreen';
-import { printMouseNav, printSuccess } from '../services/log.service';
+import { printResult } from '../services/log.service';
 
 const dispatch = async (
   command: string,
@@ -14,60 +14,70 @@ const dispatch = async (
   value: number,
   length: number,
   duplex: internal.Duplex
-) => {
+): Promise<void> => {
+  let result = '';
+
   switch (command) {
     case 'mouse_up':
       const yUp = y - value;
-      duplex.write('mouse_up');
+      result = `mouse_up ${value}\0`;
+      duplex.write(result);
       moveMouse(x, yUp);
-      printMouseNav(command, yUp);
+      printResult(result);
       break;
 
     case 'mouse_down':
       const yDown = y + value;
-      duplex.write('mouse_down');
+      result = `mouse_down ${value}\0`;
+      duplex.write(result);
       moveMouse(x, yDown);
-      printMouseNav(command, yDown);
+      printResult(result);
       break;
 
     case 'mouse_left':
       const xLeft = x - value;
-      duplex.write('mouse_left');
+      result = `mouse_left ${value}\0`;
+      duplex.write(result);
       moveMouse(xLeft, y);
-      printMouseNav(command, xLeft);
+      printResult(result);
       break;
 
     case 'mouse_right':
       const xRight = x + value;
-      duplex.write('mouse_right');
+      result = `mouse_right ${value}\0`;
+      duplex.write(result);
       moveMouse(xRight, y);
-      printMouseNav(command, xRight);
+      printResult(result);
       break;
 
     case 'mouse_position':
-      duplex.write(`mouse_position ${x} ${y}`);
-      printMouseNav(command, x, y);
+      result = `mouse_position ${x} ${y}\0`;
+      duplex.write(result);
+      printResult(result);
       break;
 
     case 'draw_circle':
-      drawCircle(x, y, value, 0.03);
-      printSuccess(command);
+      result = drawCircle(x, y, value, 0.03);
+      duplex.write(result);
+      printResult(result);
       break;
 
     case 'draw_rectangle':
-      drawRectangle(x, y, value, length, 3);
-      printSuccess(command);
+      result = drawRectangle(x, y, value, length, 3);
+      duplex.write(result);
+      printResult(result);
       break;
 
     case 'draw_square':
-      drawSquare(x, y, value, 3);
-      printSuccess(command);
+      result = drawSquare(x, y, value, 3);
+      duplex.write(result);
+      printResult(result);
       break;
 
     case 'prnt_scrn':
-      const screenShot = await printScreen(x, y, 200);
-      duplex.write(`prnt_scrn ${screenShot}`);
-      printSuccess(command);
+      result = await printScreen(x, y, 200);
+      duplex.write(result);
+      printResult(result);
       break;
 
     default:

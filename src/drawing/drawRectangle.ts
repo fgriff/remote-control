@@ -1,6 +1,12 @@
 import { dragMouse, mouseToggle } from 'robotjs';
 
-const drawRectangle = (x: number, y: number, width: number, height: number, speed: number) => {
+const drawRectangle = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  speed: number
+): string => {
   mouseToggle('down');
 
   const startX = x;
@@ -25,6 +31,8 @@ const drawRectangle = (x: number, y: number, width: number, height: number, spee
   }
 
   mouseToggle('up');
+
+  return `draw_rectangle ${width} ${height}\0`;
 };
 
 export { drawRectangle };
